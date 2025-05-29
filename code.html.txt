@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Price Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-8">Course Price Calculator</h1>
+
+        <div class="mb-6">
+            <label for="course-select" class="block text-gray-700 text-sm font-semibold mb-2">Select Course:</label>
+            <select id="course-select" class="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out bg-white text-gray-800">
+                <option value="">-- Please select a course --</option>
+                </select>
+        </div>
+
+        <div class="mb-6">
+            <label for="duration-select" class="block text-gray-700 text-sm font-semibold mb-2">Select Duration:</label>
+            <select id="duration-select" class="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out bg-white text-gray-800">
+                <option value="">-- Please select duration --</option>
+                <option value="365 days">365 days</option>
+                <option value="120 days">120 days</option>
+                <option value="30 days">30 days</option>
+            </select>
+        </div>
+
+        <div class="mb-8">
+            <label for="exam-region-select" class="block text-gray-700 text-sm font-semibold mb-2">Select Exam Region:</label>
+            <select id="exam-region-select" class="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out bg-white text-gray-800">
+                <option value="">-- Please select exam region --</option>
+                </select>
+        </div>
+
+        <div class="bg-blue-50 p-6 rounded-lg text-center shadow-inner">
+            <p class="text-gray-700 text-lg font-medium mb-2">Course Price: <span id="course-price-display" class="font-bold">€0.00</span></p>
+            <p class="text-gray-700 text-lg font-medium mb-2">Exam Fee: <span id="exam-fee-display" class="font-bold">€0.00</span></p>
+            <p class="text-gray-800 text-2xl font-extrabold mb-2">Total Price:</p>
+            <p id="total-price-display" class="text-blue-700 text-4xl font-extrabold">€0.00</p>
+            <p class="text-gray-800 text-xl font-extrabold mt-4 mb-2">Minimum Selling Price:</p>
+            <p id="min-selling-price-display" class="text-green-700 text-3xl font-extrabold">€0.00</p>
+            <p id="message-display" class="text-red-500 text-sm mt-2 hidden">Please make all selections.</p>
+        </div>
+    </div>
+
+    <script>
+        // Data extracted from the image provided for course prices.
+        const coursePrices = [
+            { course: "AgileLearn Agile Master Certified", "365 days": 34, "120 days": 24, "30 days": 19 },
+            { course: "AgileLearn Lean IT Foundation", "365 days": 34, "120 days": 74, "30 days": 19 },
+            { course: "AgileLearn Scaled Agile Master Certified", "365 days": 34, "120 days": 24, "30 days": 19 },
+            { course: "AgilePM 3 Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "AgilePM 3 Practitioner", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "BCM ISO 22301 Foundation", "365 days": 34, "120 days": 24, "30 days": 19 },
+            { course: "BPMN 2.0 Foundation", "365 days": 34, "120 days": 24, "30 days": 19 },
+            { course: "CAPM ( PMBOK 7th edition )", "365 days": 69, "120 days": 24, "30 days": 29 },
+            { course: "COBIT 2019 Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "COBIT 5 Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "DOI DevOps Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "EXIN BCS Business Analysis Practice", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "EXIN BCS Foundation Certificate in Business Analysis", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "EXIN BCS Modeling Business Processes", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "EXIN BCS Requirements Engineering", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "FitSM Foundation .", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "ISO/IEC 20000 Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "ISO/IEC 27001 Auditor", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "ISO/IEC 27001 Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "ISO/IEC 27001 Practitioner", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "ITIL ® 4 Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "ITIL ® 4 Specialist : Create , Deliver and Support", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "ITIL ® 4 Specialist : Drive Stakeholder Value", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "ITIL ® 4 Specialist : High Velocity IT", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "ITIL ® 4 Specialist : Acquiring & Managing Cloud Services", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "ITIL ® 4 Specialist : Monitor , Support and Fulfil", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "ITIL ® 4 Strategist : Direct , Plan and Improve", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "ITIL ® 4 Leader : Digital & IT Strategy", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "ITIL ® 4 Practitioner : Problem Management", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "ITIL ® 4 Practitioner : Incident Management", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "ITIL ® 4 Practitioner : Service Desk", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "ITIL ® 4 Practitioner : Monitoring and Event Management", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "ITIL ® 4 Practitioner : Service Request Management", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "KanbanLearn Kanban Master Certified", "365 days": 34, "120 days": 24, "30 days": 19 },
+            { course: "M_o_R ™ Practitioner", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "MSP Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "MSP Practitioner", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "Organizational Resilience Foundation", "365 days": 34, "120 days": 24, "30 days": 19 },
+            { course: "PM2 Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "PMP ( PMBOK 7th edition )", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "PRINCE2 Agile \" Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "PRINCE2 Agile \" Practitioner", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "PRINCE2 7 Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "PRINCE2 ® 7 Practitioner", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "Project Management ISO 21502 Foundation", "365 days": 34, "120 days": 24, "30 days": 19 },
+            { course: "ScrumLearn Scrum Developer Certified", "365 days": 34, "120 days": 24, "30 days": 19 },
+            { course: "ScrumLearn Scrum Master Certified", "365 days": 34, "120 days": 24, "30 days": 19 },
+            { course: "ScrumLearn Scrum Product Owner Certified", "365 days": 34, "120 days": 24, "30 days": 19 },
+            { course: "SIAM ™ Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "TOGAF EA Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "TOGAF EA Practitioner", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "TOGAF EA Bridge", "365 days": 69, "120 days": 49, "30 days": 29 },
+            { course: "VeriSM ™ Foundation", "365 days": 69, "120 days": 49, "30 days": 29 }
+        ];
+
+        // Data extracted from the image provided for exam fees.
+        // Standardized course names and filled missing values with 0.
+        const examFees = [
+            { course: "AgileBA Foundation", "Region 1": 334, "Region 2": 334, "Region 3": 334 },
+            { course: "AgileLearn Agile Master Certified", "Region 1": 119, "Region 2": 119, "Region 3": 99 },
+            { course: "AgileLearn Lean IT Foundation", "Region 1": 119, "Region 2": 119, "Region 3": 99 },
+            { course: "AgileLearn Scaled Agile Master Certified", "Region 1": 119, "Region 2": 119, "Region 3": 99 },
+            { course: "AgilePM 3 Foundation", "Region 1": 229, "Region 2": 229, "Region 3": 189 },
+            { course: "AgilePM 3 Practitioner", "Region 1": 354, "Region 2": 354, "Region 3": 299 },
+            { course: "BCM ISO 22301 Foundation", "Region 1": 119, "Region 2": 119, "Region 3": 99 },
+            { course: "Better Business Cases Foundation", "Region 1": 324, "Region 2": 324, "Region 3": 299 },
+            { course: "BPMN 2.0 Foundation", "Region 1": 89, "Region 2": 89, "Region 3": 69 },
+            { course: "Change Management Foundation", "Region 1": 309, "Region 2": 309, "Region 3": 279 },
+            { course: "COBIT 2019 Foundation", "Region 1": 234, "Region 2": 234, "Region 3": 234 },
+            { course: "COBIT 5 Foundation", "Region 1": 249, "Region 2": 249, "Region 3": 179 },
+            { course: "CompTIA A + Core 1", "Region 1": 219, "Region 2": 219, "Region 3": 219 },
+            { course: "CompTIA A+Core 2", "Region 1": 219, "Region 2": 219, "Region 3": 219 },
+            { course: "CompTIA Security +", "Region 1": 339, "Region 2": 339, "Region 3": 339 },
+            { course: "CompTIA Network +", "Region 1": 309, "Region 2": 309, "Region 3": 309 },
+            { course: "CompTIA Data +", "Region 1": 219, "Region 2": 219, "Region 3": 219 },
+            { course: "CompTIA Linux +", "Region 1": 309, "Region 2": 309, "Region 3": 309 },
+            { course: "CompTIA Cloud", "Region 1": 309, "Region 2": 309, "Region 3": 309 }, // Corrected from 305
+            { course: "CompTIA Server", "Region 1": 309, "Region 2": 309, "Region 3": 309 },
+            { course: "CompTIA Project +", "Region 1": 309, "Region 2": 309, "Region 3": 309 },
+            { course: "CompTIA CYSA +", "Region 1": 339, "Region 2": 339, "Region 3": 339 },
+            { course: "CompTIA PenTest +", "Region 1": 339, "Region 2": 339, "Region 3": 339 },
+            { course: "CompTIA CASP ( CompTIA SecurityX )", "Region 1": 429, "Region 2": 429, "Region 3": 429 },
+            { course: "CompTIA DataSys +", "Region 1": 309, "Region 2": 309, "Region 3": 309 },
+            { course: "CompTIA DataX", "Region 1": 429, "Region 2": 429, "Region 3": 429 },
+            { course: "DOI DevOps Foundation", "Region 1": 379, "Region 2": 349, "Region 3": 179 },
+            { course: "EXIN BCS Business Analysis Practice", "Region 1": 299, "Region 2": 299, "Region 3": 299 },
+            { course: "EXIN BCS Foundation Certificate in Business Analysis", "Region 1": 244, "Region 2": 244, "Region 3": 244 },
+            { course: "EXIN BCS Modeling Business Processes", "Region 1": 299, "Region 2": 299, "Region 3": 299 },
+            { course: "EXIN BCS Requirements Engineering", "Region 1": 299, "Region 2": 299, "Region 3": 299 },
+            { course: "EXIN Cyber and IT Security Foundation", "Region 1": 224, "Region 2": 224, "Region 3": 224 },
+            { course: "EXIN Ethical Hacking Foundation", "Region 1": 224, "Region 2": 224, "Region 3": 224 },
+            { course: "EXIN Cloud Computing Foundation", "Region 1": 224, "Region 2": 224, "Region 3": 224 },
+            { course: "EXIN Privacy and Data Protection Foundation", "Region 1": 224, "Region 2": 224, "Region 3": 224 },
+            { course: "EXIN Privacy and Data Protection Practitioner", "Region 1": 269, "Region 2": 269, "Region 3": 269 },
+            { course: "FitSM Foundation .", "Region 1": 149, "Region 2": 149, "Region 3": 124 },
+            { course: "IASSC Lean Six Sigma Black Belt", "Region 1": 419, "Region 2": 379, "Region 3": 289 },
+            { course: "IASSC Lean Six Sigma Green Belt", "Region 1": 329, "Region 2": 299, "Region 3": 229 },
+            { course: "IASSC Lean Six Sigma Yellow Belt", "Region 1": 239, "Region 2": 209, "Region 3": 169 },
+            { course: "ISO/IEC 20000 Foundation", "Region 1": 229, "Region 2": 229, "Region 3": 189 },
+            { course: "ISO/IEC 27001 Auditor", "Region 1": 354, "Region 2": 354, "Region 3": 299 },
+            { course: "ISO/IEC 27001 Foundation", "Region 1": 229, "Region 2": 229, "Region 3": 189 },
+            { course: "ISO/IEC 27001 Practitioner", "Region 1": 364, "Region 2": 364, "Region 3": 309 },
+            { course: "ITIL ® 4 Foundation", "Region 1": 474, "Region 2": 409, "Region 3": 324 },
+            { course: "ITIL ® 4 Specialist : Create , Deliver and Support", "Region 1": 589, "Region 2": 514, "Region 3": 399 },
+            { course: "ITIL ® 4 Specialist : Drive Stakeholder Value", "Region 1": 589, "Region 2": 514, "Region 3": 399 },
+            { course: "ITIL ® 4 Specialist : High Velocity IT", "Region 1": 589, "Region 2": 514, "Region 3": 399 },
+            { course: "ITIL ® 4 Specialist : Acquiring & Managing Cloud Services", "Region 1": 589, "Region 2": 514, "Region 3": 399 },
+            { course: "ITIL ® 4 Specialist : Monitor , Support and Fulfil", "Region 1": 589, "Region 2": 514, "Region 3": 399 },
+            { course: "ITIL ® 4 Strategist : Direct , Plan and Improve", "Region 1": 589, "Region 2": 514, "Region 3": 399 },
+            { course: "ITIL ® 4 Leader : Digital & IT Strategy", "Region 1": 759, "Region 2": 674, "Region 3": 499 },
+            { course: "ITIL ® 4 Practitioner : Problem Management", "Region 1": 199, "Region 2": 179, "Region 3": 149 },
+            { course: "ITIL ® 4 Practitioner : Incident Management", "Region 1": 199, "Region 2": 179, "Region 3": 149 },
+            { course: "ITIL ® 4 Practitioner : Service Desk", "Region 1": 199, "Region 2": 179, "Region 3": 149 },
+            { course: "ITIL ® 4 Practitioner : Monitoring and Event Management", "Region 1": 199, "Region 2": 179, "Region 3": 149 },
+            { course: "ITIL ® 4 Practitioner : Service Request Management", "Region 1": 199, "Region 2": 179, "Region 3": 149 },
+            { course: "KanbanLearn Kanban Master Certified", "Region 1": 119, "Region 2": 119, "Region 3": 99 },
+            { course: "M_o_R ™ Practitioner", "Region 1": 519, "Region 2": 454, "Region 3": 359 },
+            { course: "MSP Foundation", "Region 1": 514, "Region 2": 454, "Region 3": 359 },
+            { course: "MSP Practitioner", "Region 1": 519, "Region 2": 454, "Region 3": 359 },
+            { course: "Organizational Resilience Foundation", "Region 1": 119, "Region 2": 119, "Region 3": 99 },
+            { course: "P3O Foundation", "Region 1": 514, "Region 2": 454, "Region 3": 359 },
+            { course: "PM2 Foundation", "Region 1": 224, "Region 2": 224, "Region 3": 189 },
+            { course: "PMP ( PMBOK 7th edition )", "Region 1": 0, "Region 2": 0, "Region 3": 0 }, // Not in exam fees list, setting to 0
+            { course: "PRINCE2 Agile \" Foundation", "Region 1": 514, "Region 2": 454, "Region 3": 359 },
+            { course: "PRINCE2 Agile \" Practitioner", "Region 1": 519, "Region 2": 454, "Region 3": 359 },
+            { course: "PRINCE2 7 Foundation", "Region 1": 514, "Region 2": 454, "Region 3": 359 },
+            { course: "PRINCE2 ® 7 Practitioner", "Region 1": 519, "Region 2": 454, "Region 3": 359 },
+            { course: "Project Management ISO 21502 Foundation", "Region 1": 119, "Region 2": 119, "Region 3": 99 },
+            { course: "ScrumLearn Scrum Developer Certified", "Region 1": 89, "Region 2": 89, "Region 3": 69 },
+            { course: "ScrumLearn Scrum Master Certified", "Region 1": 119, "Region 2": 119, "Region 3": 99 },
+            { course: "ScrumLearn Scrum Product Owner Certified", "Region 1": 119, "Region 2": 119, "Region 3": 99 },
+            { course: "SIAM ™ Foundation", "Region 1": 224, "Region 2": 224, "Region 3": 224 },
+            { course: "TOGAF EA Foundation", "Region 1": 304, "Region 2": 304, "Region 3": 304 },
+            { course: "TOGAF EA Practitioner", "Region 1": 304, "Region 2": 304, "Region 3": 304 },
+            { course: "TOGAF EA Bridge", "Region 1": 304, "Region 2": 304, "Region 3": 304 },
+            { course: "VeriSM ™ Foundation", "Region 1": 224, "Region 2": 224, "Region 3": 224 },
+            // Additional courses from examFees data that might not be in coursePrices, setting course prices to 0
+            { course: "Mo R Foundation", "Region 1": 514, "Region 2": 454, "Region 3": 359 },
+            { course: "Me R Practitioner", "Region 1": 519, "Region 2": 454, "Region 3": 359 },
+            { course: "Managing Benefits Foundation", "Region 1": 249, "Region 2": 249, "Region 3": 249 },
+            { course: "MoP Foundation", "Region 1": 514, "Region 2": 454, "Region 3": 359 },
+            { course: "MoV Foundation", "Region 1": 504, "Region 2": 504, "Region 3": 504 },
+            { course: "P30 Foundation .", "Region 1": 514, "Region 2": 454, "Region 3": 359 },
+            { course: "Praxis Framework ™ Foundation", "Region 1": 329, "Region 2": 329, "Region 3": 329 },
+            { course: "Praxis Framework Practitioner", "Region 1": 469, "Region 2": 449, "Region 3": 449 },
+            { course: "Software Testing Foundation", "Region 1": 384, "Region 2": 384, "Region 3": 384 },
+            { course: "TOGAF EA Foundation + Practitioner", "Region 1": 469, "Region 2": 469, "Region 3": 469 }
+        ];
+
+
+        // Get references to the select elements and display areas
+        const courseSelect = document.getElementById('course-select');
+        const durationSelect = document.getElementById('duration-select');
+        const examRegionSelect = document.getElementById('exam-region-select');
+        const coursePriceDisplay = document.getElementById('course-price-display');
+        const examFeeDisplay = document.getElementById('exam-fee-display');
+        const totalPriceDisplay = document.getElementById('total-price-display');
+        const minSellingPriceDisplay = document.getElementById('min-selling-price-display');
+        const messageDisplay = document.getElementById('message-display');
+
+        // Constant for the minimum selling price addition in Euros
+        const MIN_SELLING_PRICE_ADDITION_EUROS = 110;
+
+        /**
+         * Populates the course dropdown with unique course names from the data.
+         */
+        function populateCourseDropdown() {
+            // Clear existing options first (except the default "Please select" option)
+            courseSelect.innerHTML = '<option value="">-- Please select a course --</option>';
+
+            // Combine course names from both coursePrices and examFees to ensure all are available
+            const allCourseNames = new Set();
+            coursePrices.forEach(item => allCourseNames.add(item.course));
+            examFees.forEach(item => allCourseNames.add(item.course));
+
+            const courses = [...allCourseNames].sort(); // Sort alphabetically
+
+            // Populate Course dropdown
+            courses.forEach(course => {
+                const option = document.createElement('option');
+                option.value = course;
+                option.textContent = course;
+                courseSelect.appendChild(option);
+            });
+        }
+
+        /**
+         * Populates the exam region dropdown with available regions.
+         */
+        function populateExamRegionDropdown() {
+            // Clear existing options first
+            examRegionSelect.innerHTML = '<option value="">-- Please select exam region --</option>';
+
+            // The regions are fixed as "Region 1", "Region 2", "Region 3" based on the image data
+            const regions = ["Region 1", "Region 2", "Region 3"];
+
+            // Populate Exam Region dropdown
+            regions.forEach(region => {
+                const option = document.createElement('option');
+                option.value = region;
+                option.textContent = region;
+                examRegionSelect.appendChild(option);
+            });
+        }
+
+        /**
+         * Updates the displayed prices and total based on selections.
+         */
+        function updatePrices() {
+            const selectedCourse = courseSelect.value;
+            const selectedDuration = durationSelect.value;
+            const selectedExamRegion = examRegionSelect.value;
+
+            // Hide any previous messages
+            messageDisplay.classList.add('hidden');
+
+            let currentCoursePrice = 0;
+            let currentExamFee = 0;
+            let total = 0;
+            let minSellingPrice = 0;
+
+            if (selectedCourse && selectedDuration && selectedExamRegion) {
+                // Find the matching course price
+                const foundCoursePriceEntry = coursePrices.find(item => item.course === selectedCourse);
+                if (foundCoursePriceEntry) {
+                    const price = foundCoursePriceEntry[selectedDuration];
+                    if (price !== undefined) {
+                        currentCoursePrice = price;
+                    }
+                }
+
+                // Find the matching exam fee for the selected course and region
+                const foundExamFeeEntry = examFees.find(item => item.course === selectedCourse);
+                if (foundExamFeeEntry) {
+                    const fee = foundExamFeeEntry[selectedExamRegion];
+                    if (fee !== undefined) {
+                        currentExamFee = fee;
+                    }
+                }
+
+                // Calculate total
+                total = currentCoursePrice + currentExamFee;
+
+                // Calculate Minimum Selling Price
+                minSellingPrice = total + MIN_SELLING_PRICE_ADDITION_EUROS;
+
+
+                // Update display elements with Euro symbol
+                coursePriceDisplay.textContent = `€${currentCoursePrice.toFixed(2)}`;
+                examFeeDisplay.textContent = `€${currentExamFee.toFixed(2)}`;
+                totalPriceDisplay.textContent = `€${total.toFixed(2)}`;
+                minSellingPriceDisplay.textContent = `€${minSellingPrice.toFixed(2)}`;
+
+                // Show specific message if a price or fee is 0 and it's not expected to be
+                if (currentCoursePrice === 0 && foundCoursePriceEntry && selectedDuration) {
+                    messageDisplay.textContent = `Course price for '${selectedCourse}' with duration '${selectedDuration}' is €0.00 or not found.`;
+                    messageDisplay.classList.remove('hidden');
+                } else if (currentExamFee === 0 && foundExamFeeEntry && selectedExamRegion) {
+                    messageDisplay.textContent = `Exam fee for '${selectedCourse}' in '${selectedExamRegion}' is €0.00 or not found.`;
+                    messageDisplay.classList.remove('hidden');
+                }
+
+            } else {
+                // If any selection is missing, reset displays and show general message
+                coursePriceDisplay.textContent = "€0.00";
+                examFeeDisplay.textContent = "€0.00";
+                totalPriceDisplay.textContent = "€0.00";
+                minSellingPriceDisplay.textContent = "€0.00";
+                messageDisplay.textContent = "Please make all selections.";
+                messageDisplay.classList.remove('hidden');
+            }
+        }
+
+        // Initial population of dropdowns and price update when the page loads
+        populateCourseDropdown();
+        populateExamRegionDropdown();
+        updatePrices();
+
+        // Add event listeners to the select elements to trigger price update on change
+        courseSelect.addEventListener('change', updatePrices);
+        durationSelect.addEventListener('change', updatePrices);
+        examRegionSelect.addEventListener('change', updatePrices);
+    </script>
+</body>
+</html>
