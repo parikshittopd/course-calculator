@@ -39,19 +39,19 @@
         </div>
 
         <div class="mb-8">
-            <label for="exam-region-select" class="block text-gray-700 text-sm font-semibold mb-2">Select Exam Region:</label>
-            <select id="exam-region-select" class="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out bg-white text-gray-800">
-                <option value="">-- Please select exam region --</option>
+            <label for="country-select" class="block text-gray-700 text-sm font-semibold mb-2">Select Country:</label>
+            <select id="country-select" class="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out bg-white text-gray-800">
+                <option value="">-- Please select a country --</option>
                 </select>
         </div>
 
         <div class="bg-blue-50 p-6 rounded-lg text-center shadow-inner">
-            <p class="text-gray-700 text-lg font-medium mb-2">Course Price: <span id="course-price-display" class="font-bold">€0.00</span></p>
-            <p class="text-gray-700 text-lg font-medium mb-2">Exam Fee: <span id="exam-fee-display" class="font-bold">€0.00</span></p>
+            <p class="text-gray-700 text-lg font-medium mb-2">Course Price: <span id="course-price-display" class="font-bold">$0.00</span></p>
+            <p class="text-gray-700 text-lg font-medium mb-2">Exam Fee: <span id="exam-fee-display" class="font-bold">$0.00</span></p>
             <p class="text-gray-800 text-2xl font-extrabold mb-2">Total Price:</p>
-            <p id="total-price-display" class="text-blue-700 text-4xl font-extrabold">€0.00</p>
+            <p id="total-price-display" class="text-blue-700 text-4xl font-extrabold">$0.00</p>
             <p class="text-gray-800 text-xl font-extrabold mt-4 mb-2">Minimum Selling Price:</p>
-            <p id="min-selling-price-display" class="text-green-700 text-3xl font-extrabold">€0.00</p>
+            <p id="min-selling-price-display" class="text-green-700 text-3xl font-extrabold">$0.00</p>
             <p id="message-display" class="text-red-500 text-sm mt-2 hidden">Please make all selections.</p>
         </div>
     </div>
@@ -59,168 +59,344 @@
     <script>
         // Data extracted from the image provided for course prices.
         const coursePrices = [
-            { course: "AgileLearn Agile Master Certified", "365 days": 34, "120 days": 24, "30 days": 19 },
-            { course: "AgileLearn Lean IT Foundation", "365 days": 34, "120 days": 74, "30 days": 19 },
-            { course: "AgileLearn Scaled Agile Master Certified", "365 days": 34, "120 days": 24, "30 days": 19 },
-            { course: "AgilePM 3 Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "AgilePM 3 Practitioner", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "BCM ISO 22301 Foundation", "365 days": 34, "120 days": 24, "30 days": 19 },
-            { course: "BPMN 2.0 Foundation", "365 days": 34, "120 days": 24, "30 days": 19 },
-            { course: "CAPM ( PMBOK 7th edition )", "365 days": 69, "120 days": 24, "30 days": 29 },
-            { course: "COBIT 2019 Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "COBIT 5 Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "DOI DevOps Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "EXIN BCS Business Analysis Practice", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "EXIN BCS Foundation Certificate in Business Analysis", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "EXIN BCS Modeling Business Processes", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "EXIN BCS Requirements Engineering", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "FitSM Foundation .", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "ISO/IEC 20000 Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "ISO/IEC 27001 Auditor", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "ISO/IEC 27001 Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "ISO/IEC 27001 Practitioner", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "ITIL ® 4 Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "ITIL ® 4 Specialist : Create , Deliver and Support", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "ITIL ® 4 Specialist : Drive Stakeholder Value", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "ITIL ® 4 Specialist : High Velocity IT", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "ITIL ® 4 Specialist : Acquiring & Managing Cloud Services", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "ITIL ® 4 Specialist : Monitor , Support and Fulfil", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "ITIL ® 4 Strategist : Direct , Plan and Improve", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "ITIL ® 4 Leader : Digital & IT Strategy", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "ITIL ® 4 Practitioner : Problem Management", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "ITIL ® 4 Practitioner : Incident Management", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "ITIL ® 4 Practitioner : Service Desk", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "ITIL ® 4 Practitioner : Monitoring and Event Management", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "ITIL ® 4 Practitioner : Service Request Management", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "KanbanLearn Kanban Master Certified", "365 days": 34, "120 days": 24, "30 days": 19 },
-            { course: "M_o_R ™ Practitioner", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "MSP Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "MSP Practitioner", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "Organizational Resilience Foundation", "365 days": 34, "120 days": 24, "30 days": 19 },
-            { course: "PM2 Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "PMP ( PMBOK 7th edition )", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "PRINCE2 Agile \" Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "PRINCE2 Agile \" Practitioner", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "PRINCE2 7 Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "PRINCE2 ® 7 Practitioner", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "Project Management ISO 21502 Foundation", "365 days": 34, "120 days": 24, "30 days": 19 },
-            { course: "ScrumLearn Scrum Developer Certified", "365 days": 34, "120 days": 24, "30 days": 19 },
-            { course: "ScrumLearn Scrum Master Certified", "365 days": 34, "120 days": 24, "30 days": 19 },
-            { course: "ScrumLearn Scrum Product Owner Certified", "365 days": 34, "120 days": 24, "30 days": 19 },
-            { course: "SIAM ™ Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "TOGAF EA Foundation", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "TOGAF EA Practitioner", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "TOGAF EA Bridge", "365 days": 69, "120 days": 49, "30 days": 29 },
-            { course: "VeriSM ™ Foundation", "365 days": 69, "120 days": 49, "30 days": 29 }
+            { course: "AgileLearn Agile Master Certified", "365 days": 41, "120 days": 29, "30 days": 23 },
+            { course: "AgileLearn Lean IT Foundation", "365 days": 41, "120 days": 29, "30 days": 23 },
+            { course: "AgileLearn Scaled Agile Master Certified", "365 days": 41, "120 days": 29, "30 days": 23 },
+            { course: "AgilePM3 Foundation", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "AgilePM3 Practitioner", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "BCM ISO 22301 Foundation", "365 days": 41, "120 days": 29, "30 days": 23 },
+            { course: "BPMN 2.0 Foundation", "365 days": 41, "120 days": 29, "30 days": 23 },
+            { course: "CAPM (PMBOK 7th edition)", "365 days": 83, "120 days": 29, "30 days": 35 },
+            { course: "COBIT 2019 Foundation", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "COBIT 5 Foundation", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "DOI DevOps Foundation", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "EXIN BCS Business Analysis Practice", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "EXIN BCS Foundation Certificate in Business Analysis", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "EXIN BCS Modeling Business Processes", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "EXIN BCS Requirements Engineering", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "FitSM Foundation", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "ISO/IEC 20000 Foundation", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "ISO/IEC 27001 Auditor", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "ISO/IEC 27001 Foundation", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "ISO/IEC 27001 Practitioner", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "ITIL 4 Foundation", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "ITIL 4 Specialist: Create, Deliver and Support", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "ITIL 4 Specialist: Drive Stakeholder Value", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "ITIL 4 Specialist: High Velocity IT", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "ITIL 4 Specialist: Acquiring & Managing Cloud Services", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "ITIL 4 Specialist: Monitor, Support and Fulfil", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "ITIL 4 Strategist: Direct, Plan and Improve", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "ITIL 4 Leader: Digital & IT Strategy", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "ITIL 4 Practitioner: Problem Management", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "ITIL 4 Practitioner: Incident Management", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "ITIL 4 Practitioner: Service Desk", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "ITIL 4 Practitioner: Monitoring and Event Management", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "ITIL 4 Practitioner: Service Request Management", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "KanbanLearn Kanban Master Certified", "365 days": 41, "120 days": 29, "30 days": 23 },
+            { course: "M_o_R Practitioner", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "MSP Foundation", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "MSP Practitioner", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "Organizational Resilience Foundation", "365 days": 41, "120 days": 29, "30 days": 23 },
+            { course: "PM2 Foundation", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "PMP (PMBOK 7th edition)", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "PRINCE2 Agile Foundation", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "PRINCE2 Agile Practitioner", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "PRINCE2 7 Foundation", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "PRINCE2 7 Practitioner", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "Project Management ISO 21502 Foundation", "365 days": 41, "120 days": 29, "30 days": 23 },
+            { course: "ScrumLearn Scrum Developer Certified", "365 days": 41, "120 days": 29, "30 days": 23 },
+            { course: "ScrumLearn Scrum Master Certified", "365 days": 41, "120 days": 29, "30 days": 23 },
+            { course: "ScrumLearn Scrum Product Owner Certified", "365 days": 41, "120 days": 29, "30 days": 23 },
+            { course: "SIAM Foundation", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "TOGAF EA Foundation", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "TOGAF EA Practitioner", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "TOGAF EA Bridge", "365 days": 83, "120 days": 59, "30 days": 35 },
+            { course: "VeriSM Foundation", "365 days": 83, "120 days": 59, "30 days": 35 }
         ];
 
-        // Data extracted from the image provided for exam fees.
-        // Standardized course names and filled missing values with 0.
+        // Data for exam fees. Standardized course names and filled missing values with 0.
         const examFees = [
-            { course: "AgileBA Foundation", "Region 1": 334, "Region 2": 334, "Region 3": 334 },
-            { course: "AgileLearn Agile Master Certified", "Region 1": 119, "Region 2": 119, "Region 3": 99 },
-            { course: "AgileLearn Lean IT Foundation", "Region 1": 119, "Region 2": 119, "Region 3": 99 },
-            { course: "AgileLearn Scaled Agile Master Certified", "Region 1": 119, "Region 2": 119, "Region 3": 99 },
-            { course: "AgilePM 3 Foundation", "Region 1": 229, "Region 2": 229, "Region 3": 189 },
-            { course: "AgilePM 3 Practitioner", "Region 1": 354, "Region 2": 354, "Region 3": 299 },
-            { course: "BCM ISO 22301 Foundation", "Region 1": 119, "Region 2": 119, "Region 3": 99 },
-            { course: "Better Business Cases Foundation", "Region 1": 324, "Region 2": 324, "Region 3": 299 },
-            { course: "BPMN 2.0 Foundation", "Region 1": 89, "Region 2": 89, "Region 3": 69 },
-            { course: "Change Management Foundation", "Region 1": 309, "Region 2": 309, "Region 3": 279 },
-            { course: "COBIT 2019 Foundation", "Region 1": 234, "Region 2": 234, "Region 3": 234 },
-            { course: "COBIT 5 Foundation", "Region 1": 249, "Region 2": 249, "Region 3": 179 },
-            { course: "CompTIA A + Core 1", "Region 1": 219, "Region 2": 219, "Region 3": 219 },
-            { course: "CompTIA A+Core 2", "Region 1": 219, "Region 2": 219, "Region 3": 219 },
-            { course: "CompTIA Security +", "Region 1": 339, "Region 2": 339, "Region 3": 339 },
-            { course: "CompTIA Network +", "Region 1": 309, "Region 2": 309, "Region 3": 309 },
-            { course: "CompTIA Data +", "Region 1": 219, "Region 2": 219, "Region 3": 219 },
-            { course: "CompTIA Linux +", "Region 1": 309, "Region 2": 309, "Region 3": 309 },
-            { course: "CompTIA Cloud", "Region 1": 309, "Region 2": 309, "Region 3": 309 }, // Corrected from 305
-            { course: "CompTIA Server", "Region 1": 309, "Region 2": 309, "Region 3": 309 },
-            { course: "CompTIA Project +", "Region 1": 309, "Region 2": 309, "Region 3": 309 },
-            { course: "CompTIA CYSA +", "Region 1": 339, "Region 2": 339, "Region 3": 339 },
-            { course: "CompTIA PenTest +", "Region 1": 339, "Region 2": 339, "Region 3": 339 },
-            { course: "CompTIA CASP ( CompTIA SecurityX )", "Region 1": 429, "Region 2": 429, "Region 3": 429 },
-            { course: "CompTIA DataSys +", "Region 1": 309, "Region 2": 309, "Region 3": 309 },
-            { course: "CompTIA DataX", "Region 1": 429, "Region 2": 429, "Region 3": 429 },
-            { course: "DOI DevOps Foundation", "Region 1": 379, "Region 2": 349, "Region 3": 179 },
-            { course: "EXIN BCS Business Analysis Practice", "Region 1": 299, "Region 2": 299, "Region 3": 299 },
-            { course: "EXIN BCS Foundation Certificate in Business Analysis", "Region 1": 244, "Region 2": 244, "Region 3": 244 },
-            { course: "EXIN BCS Modeling Business Processes", "Region 1": 299, "Region 2": 299, "Region 3": 299 },
-            { course: "EXIN BCS Requirements Engineering", "Region 1": 299, "Region 2": 299, "Region 3": 299 },
-            { course: "EXIN Cyber and IT Security Foundation", "Region 1": 224, "Region 2": 224, "Region 3": 224 },
-            { course: "EXIN Ethical Hacking Foundation", "Region 1": 224, "Region 2": 224, "Region 3": 224 },
-            { course: "EXIN Cloud Computing Foundation", "Region 1": 224, "Region 2": 224, "Region 3": 224 },
-            { course: "EXIN Privacy and Data Protection Foundation", "Region 1": 224, "Region 2": 224, "Region 3": 224 },
-            { course: "EXIN Privacy and Data Protection Practitioner", "Region 1": 269, "Region 2": 269, "Region 3": 269 },
-            { course: "FitSM Foundation .", "Region 1": 149, "Region 2": 149, "Region 3": 124 },
-            { course: "IASSC Lean Six Sigma Black Belt", "Region 1": 419, "Region 2": 379, "Region 3": 289 },
-            { course: "IASSC Lean Six Sigma Green Belt", "Region 1": 329, "Region 2": 299, "Region 3": 229 },
-            { course: "IASSC Lean Six Sigma Yellow Belt", "Region 1": 239, "Region 2": 209, "Region 3": 169 },
-            { course: "ISO/IEC 20000 Foundation", "Region 1": 229, "Region 2": 229, "Region 3": 189 },
-            { course: "ISO/IEC 27001 Auditor", "Region 1": 354, "Region 2": 354, "Region 3": 299 },
-            { course: "ISO/IEC 27001 Foundation", "Region 1": 229, "Region 2": 229, "Region 3": 189 },
-            { course: "ISO/IEC 27001 Practitioner", "Region 1": 364, "Region 2": 364, "Region 3": 309 },
-            { course: "ITIL ® 4 Foundation", "Region 1": 474, "Region 2": 409, "Region 3": 324 },
-            { course: "ITIL ® 4 Specialist : Create , Deliver and Support", "Region 1": 589, "Region 2": 514, "Region 3": 399 },
-            { course: "ITIL ® 4 Specialist : Drive Stakeholder Value", "Region 1": 589, "Region 2": 514, "Region 3": 399 },
-            { course: "ITIL ® 4 Specialist : High Velocity IT", "Region 1": 589, "Region 2": 514, "Region 3": 399 },
-            { course: "ITIL ® 4 Specialist : Acquiring & Managing Cloud Services", "Region 1": 589, "Region 2": 514, "Region 3": 399 },
-            { course: "ITIL ® 4 Specialist : Monitor , Support and Fulfil", "Region 1": 589, "Region 2": 514, "Region 3": 399 },
-            { course: "ITIL ® 4 Strategist : Direct , Plan and Improve", "Region 1": 589, "Region 2": 514, "Region 3": 399 },
-            { course: "ITIL ® 4 Leader : Digital & IT Strategy", "Region 1": 759, "Region 2": 674, "Region 3": 499 },
-            { course: "ITIL ® 4 Practitioner : Problem Management", "Region 1": 199, "Region 2": 179, "Region 3": 149 },
-            { course: "ITIL ® 4 Practitioner : Incident Management", "Region 1": 199, "Region 2": 179, "Region 3": 149 },
-            { course: "ITIL ® 4 Practitioner : Service Desk", "Region 1": 199, "Region 2": 179, "Region 3": 149 },
-            { course: "ITIL ® 4 Practitioner : Monitoring and Event Management", "Region 1": 199, "Region 2": 179, "Region 3": 149 },
-            { course: "ITIL ® 4 Practitioner : Service Request Management", "Region 1": 199, "Region 2": 179, "Region 3": 149 },
-            { course: "KanbanLearn Kanban Master Certified", "Region 1": 119, "Region 2": 119, "Region 3": 99 },
-            { course: "M_o_R ™ Practitioner", "Region 1": 519, "Region 2": 454, "Region 3": 359 },
-            { course: "MSP Foundation", "Region 1": 514, "Region 2": 454, "Region 3": 359 },
-            { course: "MSP Practitioner", "Region 1": 519, "Region 2": 454, "Region 3": 359 },
-            { course: "Organizational Resilience Foundation", "Region 1": 119, "Region 2": 119, "Region 3": 99 },
-            { course: "P3O Foundation", "Region 1": 514, "Region 2": 454, "Region 3": 359 },
-            { course: "PM2 Foundation", "Region 1": 224, "Region 2": 224, "Region 3": 189 },
-            { course: "PMP ( PMBOK 7th edition )", "Region 1": 0, "Region 2": 0, "Region 3": 0 }, // Not in exam fees list, setting to 0
-            { course: "PRINCE2 Agile \" Foundation", "Region 1": 514, "Region 2": 454, "Region 3": 359 },
-            { course: "PRINCE2 Agile \" Practitioner", "Region 1": 519, "Region 2": 454, "Region 3": 359 },
-            { course: "PRINCE2 7 Foundation", "Region 1": 514, "Region 2": 454, "Region 3": 359 },
-            { course: "PRINCE2 ® 7 Practitioner", "Region 1": 519, "Region 2": 454, "Region 3": 359 },
-            { course: "Project Management ISO 21502 Foundation", "Region 1": 119, "Region 2": 119, "Region 3": 99 },
-            { course: "ScrumLearn Scrum Developer Certified", "Region 1": 89, "Region 2": 89, "Region 3": 69 },
-            { course: "ScrumLearn Scrum Master Certified", "Region 1": 119, "Region 2": 119, "Region 3": 99 },
-            { course: "ScrumLearn Scrum Product Owner Certified", "Region 1": 119, "Region 2": 119, "Region 3": 99 },
-            { course: "SIAM ™ Foundation", "Region 1": 224, "Region 2": 224, "Region 3": 224 },
-            { course: "TOGAF EA Foundation", "Region 1": 304, "Region 2": 304, "Region 3": 304 },
-            { course: "TOGAF EA Practitioner", "Region 1": 304, "Region 2": 304, "Region 3": 304 },
-            { course: "TOGAF EA Bridge", "Region 1": 304, "Region 2": 304, "Region 3": 304 },
-            { course: "VeriSM ™ Foundation", "Region 1": 224, "Region 2": 224, "Region 3": 224 },
-            // Additional courses from examFees data that might not be in coursePrices, setting course prices to 0
-            { course: "Mo R Foundation", "Region 1": 514, "Region 2": 454, "Region 3": 359 },
-            { course: "Me R Practitioner", "Region 1": 519, "Region 2": 454, "Region 3": 359 },
-            { course: "Managing Benefits Foundation", "Region 1": 249, "Region 2": 249, "Region 3": 249 },
-            { course: "MoP Foundation", "Region 1": 514, "Region 2": 454, "Region 3": 359 },
-            { course: "MoV Foundation", "Region 1": 504, "Region 2": 504, "Region 3": 504 },
-            { course: "P30 Foundation .", "Region 1": 514, "Region 2": 454, "Region 3": 359 },
-            { course: "Praxis Framework ™ Foundation", "Region 1": 329, "Region 2": 329, "Region 3": 329 },
-            { course: "Praxis Framework Practitioner", "Region 1": 469, "Region 2": 449, "Region 3": 449 },
-            { course: "Software Testing Foundation", "Region 1": 384, "Region 2": 384, "Region 3": 384 },
-            { course: "TOGAF EA Foundation + Practitioner", "Region 1": 469, "Region 2": 469, "Region 3": 469 }
+            { course: "AgileBA Foundation", "Region 1": 401, "Region 2": 401, "Region 3": 401 },
+            { course: "AgileLearn Agile Master Certified", "Region 1": 143, "Region 2": 143, "Region 3": 119 },
+            { course: "AgileLearn Lean IT Foundation", "Region 1": 143, "Region 2": 143, "Region 3": 119 },
+            { course: "AgileLearn Scaled Agile Master Certified", "Region 1": 143, "Region 2": 143, "Region 3": 119 },
+            { course: "AgilePM3 Foundation", "Region 1": 275, "Region 2": 275, "Region 3": 227 },
+            { course: "AgilePM3 Practitioner", "Region 1": 425, "Region 2": 425, "Region 3": 359 },
+            { course: "BCM ISO 22301 Foundation", "Region 1": 143, "Region 2": 143, "Region 3": 119 },
+            { course: "Better Business Cases Foundation", "Region 1": 389, "Region 2": 389, "Region 3": 359 },
+            { course: "BPMN 2.0 Foundation", "Region 1": 107, "Region 2": 107, "Region 3": 83 },
+            { course: "Change Management Foundation", "Region 1": 371, "Region 2": 371, "Region 3": 335 },
+            { course: "COBIT 2019 Foundation", "Region 1": 281, "Region 2": 281, "Region 3": 281 },
+            { course: "COBIT 5 Foundation", "Region 1": 299, "Region 2": 299, "Region 3": 215 },
+            { course: "CompTIA A+ Core 1", "Region 1": 263, "Region 2": 263, "Region 3": 263 },
+            { course: "CompTIA A+ Core 2", "Region 1": 263, "Region 2": 263, "Region 3": 263 },
+            { course: "CompTIA Security+", "Region 1": 407, "Region 2": 407, "Region 3": 407 },
+            { course: "CompTIA Network+", "Region 1": 371, "Region 2": 371, "Region 3": 371 },
+            { course: "CompTIA Data+", "Region 1": 263, "Region 2": 263, "Region 3": 263 },
+            { course: "CompTIA Linux+", "Region 1": 371, "Region 2": 371, "Region 3": 371 },
+            { course: "CompTIA Cloud+", "Region 1": 371, "Region 2": 371, "Region 3": 371 },
+            { course: "CompTIA Server+", "Region 1": 371, "Region 2": 371, "Region 3": 371 },
+            { course: "CompTIA Project+", "Region 1": 371, "Region 2": 371, "Region 3": 371 },
+            { course: "CompTIA CySA+", "Region 1": 407, "Region 2": 407, "Region 3": 407 },
+            { course: "CompTIA PenTest+", "Region 1": 407, "Region 2": 407, "Region 3": 407 },
+            { course: "CompTIA CASP+ (CompTIA SecurityX)", "Region 1": 515, "Region 2": 515, "Region 3": 515 },
+            { course: "CompTIA DataSys+", "Region 1": 371, "Region 2": 371, "Region 3": 371 },
+            { course: "CompTIA DataX", "Region 1": 515, "Region 2": 515, "Region 3": 515 },
+            { course: "DOI DevOps Foundation", "Region 1": 455, "Region 2": 419, "Region 3": 215 },
+            { course: "EXIN BCS Business Analysis Practice", "Region 1": 359, "Region 2": 359, "Region 3": 359 },
+            { course: "EXIN BCS Foundation Certificate in Business Analysis", "Region 1": 293, "Region 2": 293, "Region 3": 293 },
+            { course: "EXIN BCS Modeling Business Processes", "Region 1": 359, "Region 2": 359, "Region 3": 359 },
+            { course: "EXIN BCS Requirements Engineering", "Region 1": 359, "Region 2": 359, "Region 3": 359 },
+            { course: "EXIN Cyber and IT Security Foundation", "Region 1": 269, "Region 2": 269, "Region 3": 269 },
+            { course: "EXIN Ethical Hacking Foundation", "Region 1": 269, "Region 2": 269, "Region 3": 269 },
+            { course: "EXIN Cloud Computing Foundation", "Region 1": 269, "Region 2": 269, "Region 3": 269 },
+            { course: "EXIN Privacy and Data Protection Foundation", "Region 1": 269, "Region 2": 269, "Region 3": 269 },
+            { course: "EXIN Privacy and Data Protection Practitioner", "Region 1": 323, "Region 2": 323, "Region 3": 323 },
+            { course: "FitSM Foundation", "Region 1": 179, "Region 2": 179, "Region 3": 149 },
+            { course: "IASSC Lean Six Sigma Black Belt", "Region 1": 503, "Region 2": 455, "Region 3": 347 },
+            { course: "IASSC Lean Six Sigma Green Belt", "Region 1": 395, "Region 2": 359, "Region 3": 275 },
+            { course: "IASSC Lean Six Sigma Yellow Belt", "Region 1": 287, "Region 2": 251, "Region 3": 203 },
+            { course: "ISO/IEC 20000 Foundation", "Region 1": 275, "Region 2": 275, "Region 3": 227 },
+            { course: "ISO/IEC 27001 Auditor", "Region 1": 425, "Region 2": 425, "Region 3": 359 },
+            { course: "ISO/IEC 27001 Foundation", "Region 1": 275, "Region 2": 275, "Region 3": 227 },
+            { course: "ISO/IEC 27001 Practitioner", "Region 1": 437, "Region 2": 437, "Region 3": 371 },
+            { course: "ITIL 4 Foundation", "Region 1": 569, "Region 2": 491, "Region 3": 389 },
+            { course: "ITIL 4 Specialist: Create, Deliver and Support", "Region 1": 707, "Region 2": 617, "Region 3": 479 },
+            { course: "ITIL 4 Specialist: Drive Stakeholder Value", "Region 1": 707, "Region 2": 617, "Region 3": 479 },
+            { course: "ITIL 4 Specialist: High Velocity IT", "Region 1": 707, "Region 2": 617, "Region 3": 479 },
+            { course: "ITIL 4 Specialist: Acquiring & Managing Cloud Services", "Region 1": 707, "Region 2": 617, "Region 3": 479 },
+            { course: "ITIL 4 Specialist: Monitor, Support and Fulfil", "Region 1": 707, "Region 2": 617, "Region 3": 479 },
+            { course: "ITIL 4 Strategist: Direct, Plan and Improve", "Region 1": 707, "Region 2": 617, "Region 3": 479 },
+            { course: "ITIL 4 Leader: Digital & IT Strategy", "Region 1": 911, "Region 2": 809, "Region 3": 599 },
+            { course: "ITIL 4 Practitioner: Problem Management", "Region 1": 239, "Region 2": 215, "Region 3": 179 },
+            { course: "ITIL 4 Practitioner: Incident Management", "Region 1": 239, "Region 2": 215, "Region 3": 179 },
+            { course: "ITIL 4 Practitioner: Service Desk", "Region 1": 239, "Region 2": 215, "Region 3": 179 },
+            { course: "ITIL 4 Practitioner: Monitoring and Event Management", "Region 1": 239, "Region 2": 215, "Region 3": 179 },
+            { course: "ITIL 4 Practitioner: Service Request Management", "Region 1": 239, "Region 2": 215, "Region 3": 179 },
+            { course: "KanbanLearn Kanban Master Certified", "Region 1": 143, "Region 2": 143, "Region 3": 119 },
+            { course: "M_o_R Foundation", "Region 1": 617, "Region 2": 545, "Region 3": 431 },
+            { course: "M_o_R Practitioner", "Region 1": 623, "Region 2": 545, "Region 3": 431 },
+            { course: "Managing Benefits Foundation", "Region 1": 299, "Region 2": 299, "Region 3": 299 },
+            { course: "MoP Foundation", "Region 1": 617, "Region 2": 545, "Region 3": 431 },
+            { course: "MoV Foundation", "Region 1": 605, "Region 2": 605, "Region 3": 605 },
+            { course: "MSP Foundation", "Region 1": 617, "Region 2": 545, "Region 3": 431 },
+            { course: "MSP Practitioner", "Region 1": 623, "Region 2": 545, "Region 3": 431 },
+            { course: "Organizational Resilience Foundation", "Region 1": 143, "Region 2": 143, "Region 3": 119 },
+            { course: "P3O Foundation", "Region 1": 617, "Region 2": 545, "Region 3": 431 },
+            { course: "PM2 Foundation", "Region 1": 269, "Region 2": 269, "Region 3": 227 },
+            { course: "Praxis Framework Foundation", "Region 1": 395, "Region 2": 395, "Region 3": 395 },
+            { course: "Praxis Framework Practitioner", "Region 1": 563, "Region 2": 539, "Region 3": 539 },
+            { course: "PRINCE2 Agile Foundation", "Region 1": 617, "Region 2": 545, "Region 3": 431 },
+            { course: "PRINCE2 Agile Practitioner", "Region 1": 623, "Region 2": 545, "Region 3": 431 },
+            { course: "PRINCE2 7 Foundation", "Region 1": 617, "Region 2": 545, "Region 3": 431 },
+            { course: "PRINCE2 7 Practitioner", "Region 1": 623, "Region 2": 545, "Region 3": 431 },
+            { course: "Project Management ISO 21502 Foundation", "Region 1": 143, "Region 2": 143, "Region 3": 119 },
+            { course: "ScrumLearn Scrum Developer Certified", "Region 1": 107, "Region 2": 107, "Region 3": 83 },
+            { course: "ScrumLearn Scrum Master Certified", "Region 1": 143, "Region 2": 143, "Region 3": 119 },
+            { course: "ScrumLearn Scrum Product Owner Certified", "Region 1": 143, "Region 2": 143, "Region 3": 119 },
+            { course: "SIAM Foundation", "Region 1": 269, "Region 2": 269, "Region 3": 269 },
+            { course: "Software Testing Foundation", "Region 1": 461, "Region 2": 461, "Region 3": 461 },
+            { course: "TOGAF EA Bridge", "Region 1": 365, "Region 2": 365, "Region 3": 365 },
+            { course: "TOGAF EA Foundation", "Region 1": 365, "Region 2": 365, "Region 3": 365 },
+            { course: "TOGAF EA Foundation + Practitioner", "Region 1": 563, "Region 2": 563, "Region 3": 563 },
+            { course: "TOGAF EA Practitioner", "Region 1": 365, "Region 2": 365, "Region 3": 365 },
+            { course: "VeriSM Foundation", "Region 1": 269, "Region 2": 269, "Region 3": 269 }
         ];
+
+        // New data for country-to-region mapping
+        const countryRegionMapping = {
+            "American Samoa": "Region 1", "Andorra": "Region 2", "Moldova, Republic of": "Region 3", "Benin": "Region 4",
+            "Antarctica": "Region 1", "Austria": "Region 2", "Reunion": "Region 3", "Burkina Faso": "Region 4",
+            "Antigua and Barbuda": "Region 1", "Belgium": "Region 2", "St. Pierre and Miquelon": "Region 3", "Burundi": "Region 4",
+            "Aruba": "Region 1", "Croatia": "Region 2", "Ukraine": "Region 3", "Central African Republic": "Region 4",
+            "Bahamas": "Region 1", "Cyprus": "Region 2", "Serbia": "Region 3", "Chad": "Region 4",
+            "Bahrain": "Region 1", "Czech Republic": "Region 2", "Saint Barthélemy": "Region 3", "Chile": "Region 4",
+            "Barbados": "Region 1", "Denmark": "Region 2", "Algeria": "Region 3", "Cote D'Ivoire": "Region 4",
+            "Bermuda": "Region 1", "Estonia": "Region 2", "Angola": "Region 3", "Eritrea": "Region 4",
+            "Bouvet Island": "Region 1", "Finland": "Region 2", "Anguilla": "Region 3", "Ethiopia": "Region 4",
+            "Brunei Darussalam": "Region 1", "France": "Region 2", "Argentina": "Region 3", "Gabon": "Region 4",
+            "Canada": "Region 1", "Germany": "Region 2", "Armenia": "Region 3", "Gambia": "Region 4",
+            "Cayman Islands": "Region 1", "Greece": "Region 2", "Azerbaijan": "Region 3", "Guinea": "Region 4",
+            "Cook Islands": "Region 1", "Greenland": "Region 2", "Bangladesh": "Region 3", "Guinea-bissau": "Region 4",
+            "Falkland Islands (Malvinas)": "Region 1", "Hungary": "Region 2", "Belize": "Region 3", "Haiti": "Region 4",
+            "French Polynesia": "Region 1", "Iceland": "Region 2", "Bhutan": "Region 3", "Liberia": "Region 4",
+            "French Southern Territories": "Region 1", "Ireland": "Region 2", "Bolivia": "Region 3", "Madagascar": "Region 4",
+            "Guam": "Region 1", "Latvia": "Region 2", "Botswana": "Region 3", "Malawi": "Region 4",
+            "Heard and Mc Donald Islands": "Region 1", "Liechtenstein": "Region 2", "Brazil": "Region 3", "Mozambique": "Region 4",
+            "Hong Kong": "Region 1", "Lithuania": "Region 2", "Cambodia": "Region 3", "Nepal": "Region 4",
+            "Israel": "Region 1", "Luxembourg": "Region 2", "Cameroon": "Region 3", "Niger": "Region 4",
+            "Korea, Republic of": "Region 1", "Malta": "Region 2", "Cape Verde": "Region 3", "Rwanda": "Region 4",
+            "Kuwait": "Region 1", "Martinique": "Region 2", "Christmas Island": "Region 3", "Sierra Leone": "Region 4",
+            "Malaysia": "Region 1", "Monaco": "Region 2", "Cocos (Keeling) Islands": "Region 3", "Tajikistan": "Region 4",
+            "Mayotte": "Region 1", "Netherlands": "Region 2", "Colombia": "Region 3", "Tanzania, United Republic of": "Region 4",
+            "New Caledonia": "Region 1", "Norway": "Region 2", "Comoros": "Region 3", "Togo": "Region 4",
+            "New Zealand": "Region 1", "Poland": "Region 2", "Costa Rica": "Region 3", "Uganda": "Region 4",
+            "Norfolk Island": "Region 1", "Portugal": "Region 2", "Djibouti": "Region 3", "Albania": "Region 4",
+            "Northern Mariana Islands": "Region 1", "Romania": "Region 2", "Dominica": "Region 3", "Bosnia and Herzegowina": "Region 4",
+            "Oman": "Region 1", "San Marino": "Region 2", "Dominican Republic": "Region 3", "Bulgaria": "Region 4",
+            "Palau": "Region 1", "Slovakia (Slovak Republic)": "Region 2", "Ecuador": "Region 3", "Georgia": "Region 4",
+            "Panama": "Region 1", "Slovenia": "Region 2", "Egypt": "Region 3", "Macedonia, The Former Yugoslav Republic of": "Region 4",
+            "Puerto Rico": "Region 1", "Spain": "Region 2", "El Salvador": "Region 3", "Montenegro": "Region 4",
+            "Qatar": "Region 1", "Svalbard and Jan Mayen Islands": "Region 2", "Equatorial Guinea": "Region 3",
+            "Saint Kitts and Nevis": "Region 1", "Sweden": "Region 2", "Fiji": "Region 3",
+            "Saudi Arabia": "Region 1", "Switzerland": "Region 2", "French Guiana": "Region 3",
+            "Seychelles": "Region 1", "Vatican City State (Holy See)": "Region 2", "Ghana": "Region 3",
+            "Singapore": "Region 1", "Wallis and Futuna Islands": "Region 2", "Grenada": "Region 3",
+            "Trinidad and Tobago": "Region 1", "Aland Islands": "Region 2", "Guadeloupe": "Region 3",
+            "Turks and Caicos Islands": "Region 1", "Canary Islands": "Region 2", "Guatemala": "Region 3",
+            "United Arab Emirates": "Region 1", "Ceuta and Melilla": "Region 2", "Guyana": "Region 3",
+            "United States": "Region 1", "Australia": "Region 2", "Honduras": "Region 3",
+            "Virgin Islands (British)": "Region 1", "Japan": "Region 2", "Indonesia": "Region 3",
+            "Virgin Islands (U.S.)": "Region 1", "Thailand": "Region 2", "Iraq": "Region 3",
+            "Turkey": "Region 2", "Jamaica": "Region 3",
+            "Uruguay": "Region 2", "Jordan": "Region 3",
+            "Faroe Islands": "Region 2", "Kazakhstan": "Region 3",
+            "Gibraltar": "Region 2", "Kenya": "Region 3",
+            "Macau": "Region 2", "Kiribati": "Region 3",
+            "United Kingdom": "Region 2", "Kyrgyzstan": "Region 3",
+            "Jersey": "Region 2", "Lao People's Democratic Republic": "Region 3",
+            "Lebanon": "Region 3",
+            "Lesotho": "Region 3",
+            "Maldives": "Region 3",
+            "Marshall Islands": "Region 3",
+            "Mauritania": "Region 3",
+            "Mauritius": "Region 3",
+            "Mexico": "Region 3",
+            "Micronesia, Federated States of": "Region 3",
+            "Mongolia": "Region 3",
+            "Montserrat": "Region 3",
+            "Morocco": "Region 3",
+            "Myanmar": "Region 3",
+            "Namibia": "Region 3",
+            "Nauru": "Region 3",
+            "Nicaragua": "Region 3",
+            "Nigeria": "Region 3",
+            "Niue": "Region 3",
+            "Pakistan": "Region 3",
+            "Papua New Guinea": "Region 3",
+            "Paraguay": "Region 3",
+            "Peru": "Region 3",
+            "Philippines": "Region 3",
+            "Pitcairn": "Region 3",
+            "Saint Lucia": "Region 3",
+            "Saint Vincent and the Grenadines": "Region 3",
+            "Samoa": "Region 3",
+            "Sao Tome and Principe": "Region 3",
+            "Senegal": "Region 3",
+            "Solomon Islands": "Region 3",
+            "Sri Lanka": "Region 3",
+            "Suriname": "Region 3",
+            "Taiwan": "Region 3",
+            "Tokelau": "Region 3",
+            "Tonga": "Region 3",
+            "Tunisia": "Region 3",
+            "Turkmenistan": "Region 3",
+            "Tuvalu": "Region 3",
+            "United States Minor Outlying Islands": "Region 3",
+            "Uzbekistan": "Region 3",
+            "Vanuatu": "Region 3",
+            "Vietnam": "Region 3",
+            "Western Sahara": "Region 3",
+            "The Democratic Republic of Congo": "Region 3",
+            "East Timor": "Region 3",
+            "Zambia": "Region 3",
+            "St. Eustatius": "Region 3",
+            "Bonaire, Sint Eustatius and Saba": "Region 3",
+            "British Indian Ocean Territory": "Region 3",
+            "India": "Region 3",
+            "South Africa": "Region 3",
+            "St. Helena": "Region 3",
+            "Swaziland": "Region 3",
+            "Congo": "Region 3",
+            "Serbia": "Region 3",
+            "Saint Barthélemy": "Region 3",
+            "Reunion": "Region 3",
+            "Moldova, Republic of": "Region 3",
+            "El Salvador": "Region 3",
+            "Equatorial Guinea": "Region 3",
+            "French Guiana": "Region 3",
+            "Ghana": "Region 3",
+            "Grenada": "Region 3",
+            "Guadeloupe": "Region 3",
+            "Guatemala": "Region 3",
+            "Guyana": "Region 3",
+            "Honduras": "Region 3",
+            "Indonesia": "Region 3",
+            "Iraq": "Region 3",
+            "Jamaica": "Region 3",
+            "Jordan": "Region 3",
+            "Kazakhstan": "Region 3",
+            "Kenya": "Region 3",
+            "Kiribati": "Region 3",
+            "Kyrgyzstan": "Region 3",
+            "Lao People's Democratic Republic": "Region 3",
+            "Lebanon": "Region 3",
+            "Lesotho": "Region 3",
+            "Maldives": "Region 3",
+            "Marshall Islands": "Region 3",
+            "Mauritania": "Region 3",
+            "Mauritius": "Region 3",
+            "Mexico": "Region 3",
+            "Micronesia, Federated States of": "Region 3",
+            "Mongolia": "Region 3",
+            "Montserrat": "Region 3",
+            "Morocco": "Region 3",
+            "Myanmar": "Region 3",
+            "Namibia": "Region 3",
+            "Nauru": "Region 3",
+            "Nicaragua": "Region 3",
+            "Nigeria": "Region 3",
+            "Niue": "Region 3",
+            "Pakistan": "Region 3",
+            "Papua New Guinea": "Region 3",
+            "Paraguay": "Region 3",
+            "Peru": "Region 3",
+            "Philippines": "Region 3",
+            "Pitcairn": "Region 3",
+            "Saint Lucia": "Region 3",
+            "Saint Vincent and the Grenadines": "Region 3",
+            "Samoa": "Region 3",
+            "Sao Tome and Principe": "Region 3",
+            "Senegal": "Region 3",
+            "Solomon Islands": "Region 3",
+            "Sri Lanka": "Region 3",
+            "Suriname": "Region 3",
+            "Taiwan": "Region 3",
+            "Tokelau": "Region 3",
+            "Tonga": "Region 3",
+            "Tunisia": "Region 3",
+            "Turkmenistan": "Region 3",
+            "Tuvalu": "Region 3",
+            "United States Minor Outlying Islands": "Region 3",
+            "Uzbekistan": "Region 3",
+            "Vanuatu": "Region 3",
+            "Vietnam": "Region 3",
+            "Western Sahara": "Region 3",
+            "The Democratic Republic of Congo": "Region 3",
+            "East Timor": "Region 3",
+            "Zambia": "Region 3",
+            "St. Eustatius": "Region 3",
+            "Bonaire, Sint Eustatius and Saba": "Region 3",
+            "British Indian Ocean Territory": "Region 3",
+            "India": "Region 3",
+            "South Africa": "Region 3",
+            "St. Helena": "Region 3",
+            "Swaziland": "Region 3"
+        };
 
 
         // Get references to the select elements and display areas
         const courseSelect = document.getElementById('course-select');
         const durationSelect = document.getElementById('duration-select');
-        const examRegionSelect = document.getElementById('exam-region-select');
+        const countrySelect = document.getElementById('country-select');
         const coursePriceDisplay = document.getElementById('course-price-display');
         const examFeeDisplay = document.getElementById('exam-fee-display');
         const totalPriceDisplay = document.getElementById('total-price-display');
         const minSellingPriceDisplay = document.getElementById('min-selling-price-display');
         const messageDisplay = document.getElementById('message-display');
 
-        // Constant for the minimum selling price addition in Euros
-        const MIN_SELLING_PRICE_ADDITION_EUROS = 110;
+        // Constant for the minimum selling price addition in USD (converted from 110 Euros)
+        const MIN_SELLING_PRICE_ADDITION_USD = 110; // Keeping the value as 110 as per previous instruction, but now in USD context
 
         /**
          * Populates the course dropdown with unique course names from the data.
@@ -246,21 +422,20 @@
         }
 
         /**
-         * Populates the exam region dropdown with available regions.
+         * Populates the country dropdown with available countries.
          */
-        function populateExamRegionDropdown() {
+        function populateCountryDropdown() {
             // Clear existing options first
-            examRegionSelect.innerHTML = '<option value="">-- Please select exam region --</option>';
+            countrySelect.innerHTML = '<option value="">-- Please select a country --</option>';
 
-            // The regions are fixed as "Region 1", "Region 2", "Region 3" based on the image data
-            const regions = ["Region 1", "Region 2", "Region 3"];
+            const countries = Object.keys(countryRegionMapping).sort(); // Get all countries and sort alphabetically
 
-            // Populate Exam Region dropdown
-            regions.forEach(region => {
+            // Populate Country dropdown
+            countries.forEach(country => {
                 const option = document.createElement('option');
-                option.value = region;
-                option.textContent = region;
-                examRegionSelect.appendChild(option);
+                option.value = country;
+                option.textContent = country;
+                countrySelect.appendChild(option);
             });
         }
 
@@ -270,7 +445,7 @@
         function updatePrices() {
             const selectedCourse = courseSelect.value;
             const selectedDuration = durationSelect.value;
-            const selectedExamRegion = examRegionSelect.value;
+            const selectedCountry = countrySelect.value;
 
             // Hide any previous messages
             messageDisplay.classList.add('hidden');
@@ -280,7 +455,16 @@
             let total = 0;
             let minSellingPrice = 0;
 
-            if (selectedCourse && selectedDuration && selectedExamRegion) {
+            if (selectedCourse && selectedDuration && selectedCountry) {
+                // Determine the actual region based on the selected country
+                const actualRegion = countryRegionMapping[selectedCountry];
+
+                if (!actualRegion) {
+                    messageDisplay.textContent = `Region for '${selectedCountry}' not found.`;
+                    messageDisplay.classList.remove('hidden');
+                    return; // Stop calculation if region is not found
+                }
+
                 // Find the matching course price
                 const foundCoursePriceEntry = coursePrices.find(item => item.course === selectedCourse);
                 if (foundCoursePriceEntry) {
@@ -290,10 +474,10 @@
                     }
                 }
 
-                // Find the matching exam fee for the selected course and region
+                // Find the matching exam fee for the selected course and determined region
                 const foundExamFeeEntry = examFees.find(item => item.course === selectedCourse);
                 if (foundExamFeeEntry) {
-                    const fee = foundExamFeeEntry[selectedExamRegion];
+                    const fee = foundExamFeeEntry[actualRegion];
                     if (fee !== undefined) {
                         currentExamFee = fee;
                     }
@@ -303,30 +487,30 @@
                 total = currentCoursePrice + currentExamFee;
 
                 // Calculate Minimum Selling Price
-                minSellingPrice = total + MIN_SELLING_PRICE_ADDITION_EUROS;
+                minSellingPrice = total + MIN_SELLING_PRICE_ADDITION_USD;
 
 
-                // Update display elements with Euro symbol
-                coursePriceDisplay.textContent = `€${currentCoursePrice.toFixed(2)}`;
-                examFeeDisplay.textContent = `€${currentExamFee.toFixed(2)}`;
-                totalPriceDisplay.textContent = `€${total.toFixed(2)}`;
-                minSellingPriceDisplay.textContent = `€${minSellingPrice.toFixed(2)}`;
+                // Update display elements with USD symbol
+                coursePriceDisplay.textContent = `$${currentCoursePrice.toFixed(2)}`;
+                examFeeDisplay.textContent = `$${currentExamFee.toFixed(2)}`;
+                totalPriceDisplay.textContent = `$${total.toFixed(2)}`;
+                minSellingPriceDisplay.textContent = `$${minSellingPrice.toFixed(2)}`;
 
                 // Show specific message if a price or fee is 0 and it's not expected to be
                 if (currentCoursePrice === 0 && foundCoursePriceEntry && selectedDuration) {
-                    messageDisplay.textContent = `Course price for '${selectedCourse}' with duration '${selectedDuration}' is €0.00 or not found.`;
+                    messageDisplay.textContent = `Course price for '${selectedCourse}' with duration '${selectedDuration}' is $0.00 or not found.`;
                     messageDisplay.classList.remove('hidden');
-                } else if (currentExamFee === 0 && foundExamFeeEntry && selectedExamRegion) {
-                    messageDisplay.textContent = `Exam fee for '${selectedCourse}' in '${selectedExamRegion}' is €0.00 or not found.`;
+                } else if (currentExamFee === 0 && foundExamFeeEntry && actualRegion) {
+                    messageDisplay.textContent = `Exam fee for '${selectedCourse}' in '${actualRegion}' (selected via ${selectedCountry}) is $0.00 or not found.`;
                     messageDisplay.classList.remove('hidden');
                 }
 
             } else {
                 // If any selection is missing, reset displays and show general message
-                coursePriceDisplay.textContent = "€0.00";
-                examFeeDisplay.textContent = "€0.00";
-                totalPriceDisplay.textContent = "€0.00";
-                minSellingPriceDisplay.textContent = "€0.00";
+                coursePriceDisplay.textContent = "$0.00";
+                examFeeDisplay.textContent = "$0.00";
+                totalPriceDisplay.textContent = "$0.00";
+                minSellingPriceDisplay.textContent = "$0.00";
                 messageDisplay.textContent = "Please make all selections.";
                 messageDisplay.classList.remove('hidden');
             }
@@ -334,13 +518,13 @@
 
         // Initial population of dropdowns and price update when the page loads
         populateCourseDropdown();
-        populateExamRegionDropdown();
+        populateCountryDropdown();
         updatePrices();
 
         // Add event listeners to the select elements to trigger price update on change
         courseSelect.addEventListener('change', updatePrices);
         durationSelect.addEventListener('change', updatePrices);
-        examRegionSelect.addEventListener('change', updatePrices);
+        countrySelect.addEventListener('change', updatePrices);
     </script>
 </body>
 </html>
