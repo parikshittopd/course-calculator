@@ -1,1 +1,1 @@
-# course-calculator
+# ilearn pricing
